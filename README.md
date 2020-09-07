@@ -1,1 +1,1 @@
-# 1000 Card Game Server
+# 1000 Card Game
