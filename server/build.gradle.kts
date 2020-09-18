@@ -5,6 +5,11 @@ plugins {
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+    id("application")
+}
+
+application {
+    mainClass.set("com.rocketarminek.thousandcardgame.server.game.infrastructure.ServerApplicationKt")
 }
 
 group = "com.rocketarminek.thousandcardgame"
@@ -13,6 +18,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -26,10 +32,16 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.13")
+    testImplementation("org.amshove.kluent:kluent:1.61")
+
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.13")
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeEngines("spek2")
+    }
 }
 
 tasks.withType<KotlinCompile> {

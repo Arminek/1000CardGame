@@ -1,4 +1,4 @@
-package com.rocketarminek.thousandcardgame.server
+package com.rocketarminek.thousandcardgame.server.game.infrastructure
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
