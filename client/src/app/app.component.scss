@@ -1,0 +1,98 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5rem 9rem;
+  z-index: 100;
+
+  > a {
+    font-size: 1rem;
+    color: #ffffff;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #758d972b;
+
+  .logo__part1 {
+    font-family: "Poiret One", cursive;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-right: 1rem;
+    line-height: 3rem;
+    text-shadow: 0 0 10px #ffffff;
+  }
+
+  .logo__part2 {
+    font-size: 2rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    width: 6rem;
+    line-height: 1;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+  &.blur {
+    background-color: #000000;
+    opacity: 0.3;
+  }
+}
+
+.background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 99;
+
+  &.background-city-1 {
+    background-image: url("../assets/images/fezbot2000-D6Fskq4Rx70-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 3rem 9rem;
+  z-index: 100;
+
+  .social {
+    display: flex;
+
+    .social__link {
+      color: #ffffff;
+      margin-right: 3rem;
+      display: flex;
+      align-items: center;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      img {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.icon {
+
+}
+
+.icon-github {
+  background-image: url("../assets/images/fezbot2000-D6Fskq4Rx70-unsplash.jpg");
+}
