@@ -2,8 +2,8 @@ package com.rocketarminek.thousandcardgame.server.unit
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.DealStarted
 import com.rocketarminek.thousandcardgame.server.game.domain.event.DealWasBid
-import com.rocketarminek.thousandcardgame.server.game.domain.event.Event
 import com.rocketarminek.thousandcardgame.server.game.infrastructure.controller.StreamController
+import com.rocketarminek.thousandcardgame.server.shared.Event
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 import reactor.core.publisher.Flux

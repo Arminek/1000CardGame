@@ -2,7 +2,7 @@ package com.rocketarminek.thousandcardgame.server.game.infrastructure.controller
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.DealStarted
 import com.rocketarminek.thousandcardgame.server.game.domain.event.DealWasBid
-import com.rocketarminek.thousandcardgame.server.game.domain.event.Event
+import com.rocketarminek.thousandcardgame.server.shared.Event
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
