@@ -1,15 +1,16 @@
 package com.rocketarminek.thousandcardgame.server.game.domain.model
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.GameCreated
+import com.rocketarminek.thousandcardgame.server.shared.Aggregate
 import com.rocketarminek.thousandcardgame.server.shared.AggregateId
 import com.rocketarminek.thousandcardgame.server.shared.Event
 
 typealias GameId = AggregateId
+typealias PlayerId = String
 
-class Game constructor(val id: GameId, val playerIds: Array<String>) {
-    val uncommittedChanges = ArrayList<Event>()
-
-    init {
+class Game: Aggregate {
+    lateinit var playerIds: Array<PlayerId>
+    constructor(id: GameId, playerIds: Array<PlayerId>) {
         if (playerIds.distinct().size != playerIds.size) {
             throw IllegalArgumentException("Cannot create a game with duplicated players.")
         }
@@ -20,17 +21,16 @@ class Game constructor(val id: GameId, val playerIds: Array<String>) {
         }
         this.apply(GameCreated(id, playerIds))
     }
+    constructor(events: ArrayList<Event>): super(events)
 
-    private fun apply(event: Event) {
-        this.uncommittedChanges.add(event)
-        this.handle(event)
-    }
-
-    private fun handle(event: Event) {
+    override fun handle(event: Event) {
         when (event) {
             is GameCreated -> handle(event)
         }
     }
 
-    private fun handle(event: GameCreated) {}
+    private fun handle(event: GameCreated) {
+        this.id = event.id
+        this.playerIds = event.playerIds
+    }
 }
