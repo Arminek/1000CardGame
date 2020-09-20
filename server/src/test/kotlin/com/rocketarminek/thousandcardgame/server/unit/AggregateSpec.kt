@@ -39,7 +39,7 @@ internal class User: Aggregate {
         this.apply(Created(id, name))
     }
 
-    constructor(events: ArrayList<Event>): super(events) {}
+    constructor(events: ArrayList<Event>): super(events)
 
     fun changeName(newName: String) {
         this.apply(NameChanged(this.id, newName))
