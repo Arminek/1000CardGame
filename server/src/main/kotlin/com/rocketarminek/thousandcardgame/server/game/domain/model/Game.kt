@@ -1,9 +1,10 @@
 package com.rocketarminek.thousandcardgame.server.game.domain.model
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.GameCreated
+import com.rocketarminek.thousandcardgame.server.shared.AggregateId
 import com.rocketarminek.thousandcardgame.server.shared.Event
 
-typealias GameId = String
+typealias GameId = AggregateId
 
 class Game constructor(val id: GameId, val playerIds: Array<String>) {
     val uncommittedChanges = ArrayList<Event>()
