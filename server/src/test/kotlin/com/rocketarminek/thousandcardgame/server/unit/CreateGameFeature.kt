@@ -10,8 +10,8 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
 
 object CreateGameFeature : Spek({
-    Feature("Create game") {
-        Scenario("Creating new game for players") {
+    Feature("Create a game") {
+        Scenario("Creating a new game for players") {
             lateinit var game: Game
             val cases = mapOf<String, Array<String>>(
                     "b51315d4-fb56-11ea-adc1-0242ac120002" to
