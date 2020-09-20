@@ -46,7 +46,6 @@ object CreateGameFeature : Spek({
             }
         }
         Scenario("Trying to create a game for not supported player amount or none unique players") {
-            lateinit var game: Game
             val cases = mapOf<String, Array<String>>(
                     "b51315d4-fb56-11ea-adc1-0242ac120002" to
                             arrayOf("bf659c0a-fb56-11ea-adc1-0242ac120002"),
