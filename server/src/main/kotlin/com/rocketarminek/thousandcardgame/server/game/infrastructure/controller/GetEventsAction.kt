@@ -6,6 +6,7 @@ import com.rocketarminek.thousandcardgame.server.shared.Event
 import com.rocketarminek.thousandcardgame.server.shared.EventStore
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -14,6 +15,7 @@ import kotlin.random.Random
 
 @RestController
 class GetEventsAction(@Autowired private val store: EventStore) {
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping(value = ["/v1/games/{id}/events"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun events(@PathVariable id: GameId): Flux<Event> {
         val playerIds = arrayOf(
