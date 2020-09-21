@@ -29,8 +29,8 @@ object AggregateSpec: Spek({
     }
 })
 
-internal data class Created(val id: AggregateId, val name: String): Event()
-internal data class NameChanged(val id: AggregateId, val newName: String): Event()
+internal data class Created(override val id: AggregateId, val name: String): Event
+internal data class NameChanged(override val id: AggregateId, val newName: String): Event
 internal class User: Aggregate {
     lateinit var name: String
         private set

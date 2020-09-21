@@ -9,17 +9,18 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 class CreateGameAction(@Autowired private val repository: Repository<Game>) {
-    @CrossOrigin(origins = ["http://localhost:4200"])
+    @CrossOrigin
     @PostMapping(value = ["/v1/games"])
     fun createGame(): ResponseEntity<Response> {
-        val id = "671e7abd-5b20-425a-a70e-df1aa9142e0c"
+        val id = UUID.randomUUID().toString()
         val playerIds = arrayOf(
-                "69549ece-5e97-431a-93ba-09d47348eafb",
-                "c07dd997-3ef0-41df-a893-91b7cd9e3391",
-                "c8f1e7f0-2a73-4555-9e32-8188cc50a7b8"
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString()
         )
         if (this.repository.find(id) != null) {
             return ResponseEntity(Response(id, "The game $id already exists"), HttpStatus.BAD_REQUEST)
