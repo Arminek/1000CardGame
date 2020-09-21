@@ -1,0 +1,160 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5rem 9rem;
+  z-index: 100;
+
+  > a {
+    font-size: 1rem;
+    color: #ffffff;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #758d972b;
+  cursor: pointer;
+
+  .logo__part1 {
+    font-family: "Poiret One", cursive;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-right: 1rem;
+    line-height: 3rem;
+    text-shadow: 0 0 10px #ffffff;
+  }
+
+  .logo__part2 {
+    font-size: 2rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    width: 6rem;
+    line-height: 1;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &.blur {
+    background-color: #000000;
+    opacity: 0.3;
+  }
+}
+
+.background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 99;
+
+  &.background-city-1 {
+    background-image: url("../assets/images/fezbot2000-D6Fskq4Rx70-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 5rem 9rem;
+  z-index: 100;
+
+  .social {
+    display: flex;
+
+    .social__link {
+      color: #ffffff;
+      margin-right: 3rem;
+      display: flex;
+      align-items: center;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      img {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.icon-github {
+  background-image: url("../assets/images/fezbot2000-D6Fskq4Rx70-unsplash.jpg");
+}
+
+@function generate-random-stars ($screen-width, $screen-height, $color, $density){
+
+  $h-shadow: random($screen-width);
+  $v-shadow: random($screen-height);
+
+  $stars: '#{$h-shadow}px #{$screen-height}px #{$color}';
+  @for $i from 2 through $density {
+    $h-shadow: random($screen-width);
+    $v-shadow: random($screen-height);
+
+    $stars: '#{$stars}, #{$h-shadow}px #{$v-shadow}px #{$color}';
+  }
+  @return unquote($stars);
+}
+
+@mixin stars-content($screen-width, $screen-height, $color, $density, $speed, $delay) {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: generate-random-stars($screen-width, $screen-height, $color, $density);
+  animation-name: glowing-stars;
+  animation-duration: $speed+s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+  animation-delay: $delay+s;
+}
+
+//Change colors for multi-colors star groups
+
+#stars-group-1{
+  @include stars-content(1800, 500, #fff, 75, 1.5, 0);
+}
+
+#stars-group-2{
+  @include stars-content(1800, 500, #fff, 25, 1.5, 0.2);
+}
+
+#stars-group-3{
+  @include stars-content(1800, 500, #fff, 50, 1.5, 0.4);
+}
+
+#stars-group-4{
+  @include stars-content(1800, 500, #fff, 25, 1.5, 0.6);
+}
+
+#stars-group-5{
+  @include stars-content(1800, 500, #fff, 75, 1.5, 0.7);
+}
+
+#stars-group-6{
+  @include stars-content(1800, 1000, #fff, 25, 1.5, 1);
+}
+
+
+@keyframes glowing-stars {
+  0%   {opacity: 0;}
+  50%  {opacity: 1;}
+  100% {opacity: 0;}
+}

@@ -1,0 +1,57 @@
+:host {
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+}
+
+.board {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.board__area {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  margin: 0 2rem 0 20rem;
+  background-color: #000000;
+  opacity: 0.95;
+  border-radius: 0.2rem;
+  -webkit-box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.75);
+}
+
+.player {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.player-0 {
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.player-1 {
+    bottom: 10%;
+    left: 20%;
+  }
+
+  &.player-2 {
+    bottom: 10%;
+    right: 20%;
+  }
+}
+
+.player__logo {
+  height: 3rem;
+  width: 3rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
