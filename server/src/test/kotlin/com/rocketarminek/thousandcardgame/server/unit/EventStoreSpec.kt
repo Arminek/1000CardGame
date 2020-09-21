@@ -22,5 +22,26 @@ object EventStoreSpec: Spek({
                     NameChanged("#123", "Snow")
             )
         }
+        it("merges all events") {
+            eventStore.save(
+                    "#123",
+                    arrayListOf<Event>(
+                            Created("#123", "Jon"),
+                            NameChanged("#123", "Snow")
+                    )
+            )
+            eventStore.save(
+                    "#123",
+                    arrayListOf<Event>(
+                            NameChanged("#123", "Jon")
+                    )
+            )
+
+            eventStore.load("#123") shouldBeEqualTo arrayListOf<Event>(
+                    Created("#123", "Jon"),
+                    NameChanged("#123", "Snow"),
+                    NameChanged("#123", "Jon")
+            )
+        }
     }
 })

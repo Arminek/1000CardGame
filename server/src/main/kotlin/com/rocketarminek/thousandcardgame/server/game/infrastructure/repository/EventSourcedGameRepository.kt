@@ -8,8 +8,5 @@ import com.rocketarminek.thousandcardgame.server.shared.Repository
 class EventSourcedGameRepository(private val store: EventStore) : Repository<Game> {
     override fun save(aggregate: Game) = this.store.save(aggregate.id, aggregate.uncommittedChanges)
 
-    override fun find(id: AggregateId): Game? = when(this.store.load(id)) {
-        null -> null
-        else -> Game(this.store.load(id)!!)
-    }
+    override fun find(id: AggregateId): Game? = if(store.load(id).isEmpty()) { null } else { Game(store.load(id)) }
 }
