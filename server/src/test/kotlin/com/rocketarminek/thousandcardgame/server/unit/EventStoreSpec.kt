@@ -11,13 +11,13 @@ object EventStoreSpec: Spek({
         it("can save the aggregate events") {
             eventStore.save(
                     "#123",
-                    arrayListOf<Event>(
+                    arrayListOf(
                             Created("#123", "Jon"),
                             NameChanged("#123", "Snow")
                     )
             )
 
-            eventStore.load("#123") shouldBeEqualTo arrayListOf<Event>(
+            eventStore.load("#123") shouldBeEqualTo arrayListOf(
                     Created("#123", "Jon"),
                     NameChanged("#123", "Snow")
             )
@@ -25,19 +25,19 @@ object EventStoreSpec: Spek({
         it("merges all events") {
             eventStore.save(
                     "#123",
-                    arrayListOf<Event>(
+                    arrayListOf(
                             Created("#123", "Jon"),
                             NameChanged("#123", "Snow")
                     )
             )
             eventStore.save(
                     "#123",
-                    arrayListOf<Event>(
+                    arrayListOf(
                             NameChanged("#123", "Jon")
                     )
             )
 
-            eventStore.load("#123") shouldBeEqualTo arrayListOf<Event>(
+            eventStore.load("#123") shouldBeEqualTo arrayListOf(
                     Created("#123", "Jon"),
                     NameChanged("#123", "Snow"),
                     NameChanged("#123", "Jon")

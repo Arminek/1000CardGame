@@ -13,7 +13,7 @@ object CreateGameFeature : Spek({
     Feature("Create a game") {
         Scenario("Creating a new game for players") {
             lateinit var game: Game
-            val cases = mapOf<String, Array<String>>(
+            val cases = mapOf(
                     "b51315d4-fb56-11ea-adc1-0242ac120002" to
                             arrayOf("bf659c0a-fb56-11ea-adc1-0242ac120002", "c66907bc-fb56-11ea-adc1-0242ac120002"),
                     "63918870-fb61-11ea-adc1-0242ac120002" to
@@ -46,7 +46,7 @@ object CreateGameFeature : Spek({
             }
         }
         Scenario("Trying to create a game for not supported player amount or none unique players") {
-            val cases = mapOf<String, Array<String>>(
+            val cases = mapOf(
                     "b51315d4-fb56-11ea-adc1-0242ac120002" to
                             arrayOf("bf659c0a-fb56-11ea-adc1-0242ac120002"),
                     "758842d0-fb61-11ea-adc1-0242ac120002" to
