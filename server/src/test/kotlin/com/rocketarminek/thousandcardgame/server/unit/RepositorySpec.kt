@@ -25,9 +25,6 @@ internal class EventSourcedUserRepository(private val store: EventStore): Reposi
     }
 
     override fun find(id: AggregateId): User? {
-        return when(store.load(id)) {
-            null -> null
-            else -> User(store.load(id)!!)
-        }
+        return User(store.load(id))
     }
 }
