@@ -6,11 +6,13 @@ import com.rocketarminek.thousandcardgame.server.shared.Repository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CreateGameAction(@Autowired private val repository: Repository<Game>) {
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping(value = ["/v1/games"])
     fun createGame(): ResponseEntity<Response> {
         val id = "671e7abd-5b20-425a-a70e-df1aa9142e0c"
