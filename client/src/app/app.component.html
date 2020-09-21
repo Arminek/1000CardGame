@@ -1,16 +1,20 @@
 <div class="background background-city-1">
+  <div id="stars-group-1"></div>
+  <div id="stars-group-2"></div>
+  <div id="stars-group-3"></div>
+  <div id="stars-group-4"></div>
+  <div id="stars-group-5"></div>
+  <div id="stars-group-6"></div>
   <div class="container blur"></div>
 </div>
 <div class="container">
   <header>
-    <div class="logo">
+    <div class="logo" routerLink="/">
       <div class="logo__part1">1000</div>
       <div class="logo__part2">Card game</div>
     </div>
-    <a routerLink="board" routerLinkActive="active">Board</a>
   </header>
   <router-outlet></router-outlet>
-  <app-logs [logs]="logs"></app-logs>
   <footer class="footer">
     <div class="social">
       <a class="social__link" href="https://github.com/Arminek" target="_blank">

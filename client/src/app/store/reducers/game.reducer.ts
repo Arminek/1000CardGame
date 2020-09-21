@@ -1,14 +1,16 @@
 import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
-import { dealStarted, dealWasBid } from '../actions/game.actions';
+import { dealWasBid, gameCreated, gameStarted } from '../actions/game.actions';
 
 export interface GameState {
   playerIds: any;
   bids: Array<any>;
+  id: string;
 }
 
 export const initialState: GameState = {
   playerIds: null,
   bids: [],
+  id: '',
 };
 
 const selectGameState = createFeatureSelector<GameState>('game');
@@ -23,12 +25,23 @@ export const selectBids = createSelector(
   (state: GameState) => state.bids
 );
 
+export const selectGameId = createSelector(
+  selectGameState,
+  (state: GameState) => state.id
+);
+
 export const GameStateReducer = createReducer(
   initialState,
-  on(dealStarted, (state, action ) => {
+  on(gameStarted, (state, {payload} ) => {
     return {
       ...state,
-      playerIds: action.data.playerIds
+      id: payload.id
+    };
+  }),
+  on(gameCreated, (state, {payload} ) => {
+    return {
+      ...state,
+      playerIds: payload.playerIds
     };
   }),
   on(dealWasBid, (state, action ) => {

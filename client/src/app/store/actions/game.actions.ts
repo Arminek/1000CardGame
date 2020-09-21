@@ -1,8 +1,13 @@
 import {createAction, props} from '@ngrx/store';
 
-export const dealStarted = createAction(
-  '[Game][Server] Event received - deal-started',
-  props<{ data: any }>()
+export const gameStarted = createAction(
+  '[Game][Server] Post received - Created',
+  props<{ payload: any }>()
+);
+
+export const gameCreated = createAction(
+  '[Game][Server] Event received - game-created',
+  props<{ payload: any }>()
 );
 
 export const dealWasBid = createAction(

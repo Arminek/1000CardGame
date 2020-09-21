@@ -35,6 +35,10 @@ body {
   outline: none !important;
 }
 
+:focus {
+  outline: none;
+}
+
 hr {
   box-sizing: content-box;
   height: 0;
@@ -211,8 +215,7 @@ button {
 }
 
 button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 input,

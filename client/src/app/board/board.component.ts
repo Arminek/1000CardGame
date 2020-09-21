@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as GameSelectors from '../store/reducers/game.reducer';
+import { gameCreated } from '../store/actions/game.actions';
+import { SseService } from '../services/sse.service';
 
 @Component({
   selector: 'app-board',
@@ -12,8 +14,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   playersIds: any;
   bids$ = this.store.select(GameSelectors.selectBids);
   bids: any;
+  gameId$ = this.store.select(GameSelectors.selectGameId);
+  gameId: any;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private sseService: SseService
+  ) {}
 
   ngOnInit(): void {
     this.playersIds$.subscribe(state => {
@@ -21,6 +28,26 @@ export class BoardComponent implements OnInit, OnDestroy {
     });
     this.bids$.subscribe(state => {
       this.bids = state;
+    });
+    this.gameId$.subscribe(state => {
+      this.gameId = state;
+      this.sseService
+        .getServerSentEvent(`${state}/events`)
+        .subscribe(event => {
+            const payload = JSON.parse(event.data);
+            console.log(payload);
+            switch (payload.type) {
+              case 'game-created': {
+                this.store.dispatch(gameCreated({payload}));
+                break;
+              }
+              // case 'deal-was-bid': {
+              //   this.store.dispatch(dealWasBid({payload}));
+              //   break;
+              // }
+            }
+          }
+        );
     });
   }
 
