@@ -19,10 +19,13 @@ class CreateGameAction(@Autowired private val repository: Repository<Game>) {
                 "c07dd997-3ef0-41df-a893-91b7cd9e3391",
                 "c8f1e7f0-2a73-4555-9e32-8188cc50a7b8"
         )
+        if (this.repository.find(id) != null) {
+            return ResponseEntity(Response(id, "The game $id already exists"), HttpStatus.BAD_REQUEST)
+        }
         this.repository.save(Game(id, playerIds))
 
-        return ResponseEntity(Response(id), HttpStatus.CREATED)
+        return ResponseEntity(Response(id, "Created"), HttpStatus.CREATED)
     }
 }
 
-data class Response(val id: GameId)
+data class Response(val id: GameId, val message: String = "")
