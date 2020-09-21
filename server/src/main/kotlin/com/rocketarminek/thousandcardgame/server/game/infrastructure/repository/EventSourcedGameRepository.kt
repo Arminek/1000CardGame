@@ -1,12 +1,20 @@
 package com.rocketarminek.thousandcardgame.server.game.infrastructure.repository
 
 import com.rocketarminek.thousandcardgame.server.game.domain.model.Game
-import com.rocketarminek.thousandcardgame.server.shared.AggregateId
-import com.rocketarminek.thousandcardgame.server.shared.EventStore
-import com.rocketarminek.thousandcardgame.server.shared.Repository
+import com.rocketarminek.thousandcardgame.server.shared.*
 
-class EventSourcedGameRepository(private val store: EventStore) : Repository<Game> {
-    override fun save(aggregate: Game) = this.store.save(aggregate.id, aggregate.uncommittedChanges)
+class EventSourcedGameRepository(private val store: ReactiveEventStore, private val inMemoryStore: EventStore) : Repository<Game> {
+    override fun save(aggregate: Game) {
+        this.store.save(aggregate.uncommittedChanges)
+        this.inMemoryStore.save(aggregate.id, aggregate.uncommittedChanges)
+    }
 
-    override fun find(id: AggregateId): Game? = if(store.load(id).isEmpty()) { null } else { Game(store.load(id)) }
+    override fun find(id: AggregateId): Game? {
+        val events = this.inMemoryStore.load(id)
+        if (events.isEmpty()) {
+            return null
+        }
+
+        return Game(events)
+    }
 }
