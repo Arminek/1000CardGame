@@ -1,6 +1,6 @@
 package com.rocketarminek.thousandcardgame.server.unit
 
-import com.rocketarminek.thousandcardgame.server.game.domain.event.DealStarted
+import com.rocketarminek.thousandcardgame.server.game.domain.event.BidStarted
 import com.rocketarminek.thousandcardgame.server.game.domain.event.GameCreated
 import com.rocketarminek.thousandcardgame.server.game.domain.model.Game
 import com.rocketarminek.thousandcardgame.server.shared.Event
@@ -33,7 +33,7 @@ object CreateGameFeature : Spek({
                     game = Game(gameId, playerIds)
                 }
                 Then("the game(${gameId.slice(IntRange(0, 7))}) has been created for ${playerIds.size} players") {
-                    val event: Event? = game.uncommittedChanges.find { event -> event is GameCreated }
+                    val event: Event? = game.uncommittedChanges.find { it is GameCreated }
                     if (event is GameCreated) {
                         event.id shouldBeEqualTo gameId
                         event.playerIds shouldBeEqualTo playerIds
@@ -72,13 +72,14 @@ object CreateGameFeature : Spek({
             When("I create a game for players") {
                 game = Game("#123", arrayOf("player#123", "player#321", "player#333"))
             }
-            Then("the deal have been started") {
-                val event: Event? = game.uncommittedChanges.find { event -> event is DealStarted }
+            Then("the bid have been started") {
+                val event: Event? = game.uncommittedChanges.find { it is BidStarted }
                 event.shouldNotBeNull()
-                if (event is DealStarted) {
-                    event.id shouldBeInstanceOf String::class
-                    event.gameId shouldBeEqualTo "#123"
-                    event.type shouldBeEqualTo "deal-started"
+                if (event is BidStarted) {
+                    event.id shouldBeEqualTo "#123"
+                    event.bidId shouldBeInstanceOf String::class
+                    event.type shouldBeEqualTo "bid-started"
+                    event.playerIds shouldBeEqualTo arrayOf("player#123", "player#321", "player#333")
                 }
             }
         }
