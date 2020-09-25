@@ -2,6 +2,7 @@ package com.rocketarminek.thousandcardgame.server.game.domain.model
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.BidIncreased
 import com.rocketarminek.thousandcardgame.server.game.domain.event.BidPassed
+import com.rocketarminek.thousandcardgame.server.game.domain.event.BidWon
 import com.rocketarminek.thousandcardgame.server.shared.ChildEntity
 import com.rocketarminek.thousandcardgame.server.shared.Event
 
@@ -22,6 +23,14 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
                 this.apply(BidIncreased(it.id, this.id, this.turnSequence.current, amount))
                 this.turnSequence.next()
             }
+            if (!this.turnSequence.canSwitchTurn()) {
+                this.lastPlayer?.let { player ->
+                    BidWon(it.id, this.id, player, this.amount)
+                }?.let { event ->
+                    this.apply(event)
+                    this.turnSequence.next()
+                }
+            }
         }
     }
 
@@ -30,6 +39,14 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
             if (this.turnSequence.canSwitchTurn()) {
                 this.apply(BidPassed(it.id, this.id, this.turnSequence.current))
                 this.turnSequence.next()
+            }
+            if (!this.turnSequence.canSwitchTurn()) {
+                this.lastPlayer?.let { player ->
+                    BidWon(it.id, this.id, player, this.amount)
+                }?.let { event ->
+                    this.apply(event)
+                    this.turnSequence.next()
+                }
             }
         }
     }
