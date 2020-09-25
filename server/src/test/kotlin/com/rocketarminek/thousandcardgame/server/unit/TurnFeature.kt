@@ -2,7 +2,6 @@ package com.rocketarminek.thousandcardgame.server.unit
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.*
 import com.rocketarminek.thousandcardgame.server.game.domain.model.Game
-import com.rocketarminek.thousandcardgame.server.shared.Event
 import org.amshove.kluent.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -15,11 +14,12 @@ object TurnFeature : Spek({
                 game = Game("#123", arrayListOf("playerA", "playerB", "playerC"))
             }
             Then("The second player turn should started") {
-                val event: Event? = game.uncommittedChanges.find { it is TurnStarted }
-                event.shouldNotBeNull()
-                if (event is TurnStarted) {
-                    event.id shouldBeEqualTo "#123"
-                    event.playerId shouldBeEqualTo "playerB"
+                game.uncommittedChanges.find { it is TurnStarted }.let {
+                    it.shouldNotBeNull()
+                    if (it is TurnStarted) {
+                        it.id shouldBeEqualTo "#123"
+                        it.playerId shouldBeEqualTo "playerB"
+                    }
                 }
             }
         }
@@ -38,11 +38,12 @@ object TurnFeature : Spek({
                 game.increaseBid(10)
             }
             Then("the next turn is for the player next in queue") {
-                val event: Event? = game.uncommittedChanges.find { it is TurnStarted }
-                event.shouldNotBeNull()
-                if (event is TurnStarted) {
-                    event.id shouldBeEqualTo "#123"
-                    event.playerId shouldBeEqualTo "playerB"
+                game.uncommittedChanges.find { it is TurnStarted }.let {
+                    it.shouldNotBeNull()
+                    if (it is TurnStarted) {
+                        it.id shouldBeEqualTo "#123"
+                        it.playerId shouldBeEqualTo "playerB"
+                    }
                 }
             }
         }
@@ -62,11 +63,12 @@ object TurnFeature : Spek({
                 game.passBid()
             }
             Then("the next turn is for the next player") {
-                val event: Event? = game.uncommittedChanges.find { it is TurnStarted }
-                event.shouldNotBeNull()
-                if (event is TurnStarted) {
-                    event.id shouldBeEqualTo "#123"
-                    event.playerId shouldBeEqualTo "playerC"
+                game.uncommittedChanges.find { it is TurnStarted }.let {
+                    it.shouldNotBeNull()
+                    if (it is TurnStarted) {
+                        it.id shouldBeEqualTo "#123"
+                        it.playerId shouldBeEqualTo "playerC"
+                    }
                 }
             }
         }
