@@ -3,20 +3,30 @@ package com.rocketarminek.thousandcardgame.server.shared
 abstract class Aggregate() {
     lateinit var id: AggregateId
         protected set
-    val uncommittedChanges: ArrayList<Event> = arrayListOf<Event>()
+    val uncommittedChanges: ArrayList<Event> = arrayListOf()
 
     constructor(events: ArrayList<Event>): this() {
-        this.handleRecursively(events)
+        this.initState(events)
     }
 
     protected abstract fun handle(event: Event)
-    protected fun apply(event: Event) {
-        this.uncommittedChanges.add(event)
-        this.handle(event)
+    protected open fun childEntities(): ArrayList<ChildEntity> {
+        return arrayListOf();
     }
-    private fun handleRecursively(events: ArrayList<Event>) {
+    fun apply(event: Event) {
+        this.handleRecursively(event)
+        this.uncommittedChanges.add(event)
+    }
+    private fun handleRecursively(event: Event) {
+        this.handle(event)
+        for (child in this.childEntities()) {
+            child.root = this
+            child.handleRecursively(event)
+        }
+    }
+    private fun initState(events: ArrayList<Event>) {
         for (event in events) {
-            this.handle(event)
+            this.handleRecursively(event)
         }
     }
 }
