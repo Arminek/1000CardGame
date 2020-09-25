@@ -22,13 +22,13 @@ object GameRepositorySpec: Spek({
         val repository: Repository<Game> by memoized { EventSourcedGameRepository(reactiveEventStore, inMemoryEventStore) }
 
         it("can save the game") {
-            val game = Game("#123", arrayOf("#22", "#32", "#34"))
+            val game = Game("#123", arrayListOf("#22", "#32", "#34"))
             justRun { reactiveEventStore.save(game.uncommittedChanges) }
             every { reactiveEventStore.load(game.id) } returns Flux.fromIterable(game.uncommittedChanges)
 
             repository.save(game)
             repository.find("#123")?.id shouldBeEqualTo "#123"
-            repository.find("#123")?.playerIds shouldBeEqualTo arrayOf("#22", "#32", "#34")
+            repository.find("#123")?.playerIds shouldBeEqualTo arrayListOf("#22", "#32", "#34")
             repository.find("#123")?.uncommittedChanges shouldBeEqualTo arrayListOf()
         }
         it("returns null if cannot find any game") {

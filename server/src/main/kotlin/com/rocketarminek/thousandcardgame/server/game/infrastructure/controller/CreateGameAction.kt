@@ -17,7 +17,7 @@ class CreateGameAction(@Autowired private val repository: Repository<Game>) {
     @PostMapping(value = ["/v1/games"])
     fun createGame(): ResponseEntity<Response> {
         val id = UUID.randomUUID().toString()
-        val playerIds = arrayOf(
+        val playerIds = arrayListOf(
                 UUID.randomUUID().toString(),
                 UUID.randomUUID().toString(),
                 UUID.randomUUID().toString()
