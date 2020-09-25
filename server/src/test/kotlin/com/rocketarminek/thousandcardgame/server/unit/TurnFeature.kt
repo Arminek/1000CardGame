@@ -98,5 +98,23 @@ object TurnFeature : Spek({
                 game.uncommittedChanges.find { it is BidIncreased }.shouldBeNull()
             }
         }
+        Scenario("Switching turns") {
+            lateinit var game: Game
+            When("I create a new game") {
+                game = Game("#123", arrayListOf("playerA", "playerB", "playerC"))
+                game.increaseBid(10)
+                game.increaseBid(10)
+                game.increaseBid(10)
+                game.increaseBid(10)
+                game.increaseBid(10)
+                game.increaseBid(10)
+                game.passBid()
+                game.passBid()
+            }
+            Then("The second player turn should started") {
+                game.uncommittedChanges.filter { it is BidWon }.size shouldBeEqualTo 1
+                game.uncommittedChanges.filter { it is TurnStarted }.size shouldBeEqualTo 10
+            }
+        }
     }
 })

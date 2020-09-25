@@ -38,7 +38,7 @@ class TurnSequence(id: ChildId, private val players: ArrayList<PlayerId>): Child
     private fun calculateNextIndex(): Int {
         if (this.players.indexOf(this.current) == -1) {
             this.removedIndex?.let {
-                return if (it <= this.players.size) { it } else { 0 }
+                return if (it < this.players.size) { it } else { 0 }
             }
         }
         val index = this.players.indexOf(this.current) + 1
