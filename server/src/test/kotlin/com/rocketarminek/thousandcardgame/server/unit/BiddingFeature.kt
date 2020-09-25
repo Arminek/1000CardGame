@@ -2,7 +2,6 @@ package com.rocketarminek.thousandcardgame.server.unit
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.*
 import com.rocketarminek.thousandcardgame.server.game.domain.model.Game
-import com.rocketarminek.thousandcardgame.server.shared.Event
 import org.amshove.kluent.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -25,13 +24,14 @@ object BiddingFeature : Spek({
                 game.increaseBid(10)
             }
             Then("The bid should be increased by 10") {
-                val event: Event? = game.uncommittedChanges.find { it is BidIncreased }
-                event.shouldNotBeNull()
-                if (event is BidIncreased) {
-                    event.id shouldBeEqualTo "#123"
-                    event.bidId shouldBeEqualTo "bid#123"
-                    event.playerId shouldBeEqualTo "player#321"
-                    event.amount shouldBeEqualTo 10
+                game.uncommittedChanges.find { it is BidIncreased }.let {
+                    it.shouldNotBeNull()
+                    if (it is BidIncreased) {
+                        it.id shouldBeEqualTo "#123"
+                        it.bidId shouldBeEqualTo "bid#123"
+                        it.playerId shouldBeEqualTo "player#321"
+                        it.amount shouldBeEqualTo 10
+                    }
                 }
             }
         }
@@ -52,20 +52,22 @@ object BiddingFeature : Spek({
                 game.passBid()
             }
             Then("The bid should be passed") {
-                val event: Event? = game.uncommittedChanges.find { it is BidPassed }
-                event.shouldNotBeNull()
-                if (event is BidPassed) {
-                    event.id shouldBeEqualTo "#123"
-                    event.bidId shouldBeEqualTo "bid#123"
-                    event.playerId shouldBeEqualTo "player#321"
+                game.uncommittedChanges.find { it is BidPassed }.let {
+                    it.shouldNotBeNull()
+                    if (it is BidPassed) {
+                        it.id shouldBeEqualTo "#123"
+                        it.bidId shouldBeEqualTo "bid#123"
+                        it.playerId shouldBeEqualTo "player#321"
+                    }
                 }
             }
             And("The third player turn should started") {
-                val event: Event? = game.uncommittedChanges.find { it is TurnStarted }
-                event.shouldNotBeNull()
-                if (event is TurnStarted) {
-                    event.id shouldBeEqualTo "#123"
-                    event.playerId shouldBeEqualTo "player#333"
+                game.uncommittedChanges.find { it is TurnStarted }.let {
+                    it.shouldNotBeNull()
+                    if (it is TurnStarted) {
+                        it.id shouldBeEqualTo "#123"
+                        it.playerId shouldBeEqualTo "player#333"
+                    }
                 }
             }
         }

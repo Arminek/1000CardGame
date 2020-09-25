@@ -2,7 +2,6 @@ package com.rocketarminek.thousandcardgame.server.unit
 
 import com.rocketarminek.thousandcardgame.server.game.domain.event.GameCreated
 import com.rocketarminek.thousandcardgame.server.game.domain.model.Game
-import com.rocketarminek.thousandcardgame.server.shared.Event
 import org.amshove.kluent.*
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
@@ -32,10 +31,12 @@ object CreateGameFeature : Spek({
                     game = Game(gameId, playerIds)
                 }
                 Then("the game(${gameId.slice(IntRange(0, 7))}) has been created for ${playerIds.size} players") {
-                    val event: Event? = game.uncommittedChanges.find { it is GameCreated }
-                    if (event is GameCreated) {
-                        event.id shouldBeEqualTo gameId
-                        event.playerIds shouldBeEqualTo playerIds
+                    game.uncommittedChanges.find { it is GameCreated }.let {
+                        it.shouldNotBeNull()
+                        if (it is GameCreated) {
+                            it.id shouldBeEqualTo gameId
+                            it.playerIds shouldBeEqualTo playerIds
+                        }
                     }
                     game.id shouldBeEqualTo gameId
                     game.playerIds shouldBeEqualTo playerIds
