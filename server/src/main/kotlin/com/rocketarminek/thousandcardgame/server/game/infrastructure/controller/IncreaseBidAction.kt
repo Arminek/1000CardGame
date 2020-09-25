@@ -6,23 +6,20 @@ import com.rocketarminek.thousandcardgame.server.shared.Repository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 class IncreaseBidAction(@Autowired private val repository: Repository<Game>) {
     @CrossOrigin
     @PostMapping(value = ["/v1/games/{id}/bid"])
-    fun increaseBid(@PathVariable id: String): ResponseEntity<IncreaseBidResponse> {
+    fun increaseBid(@PathVariable id: String, @RequestBody command: IncreaseBid): ResponseEntity<IncreaseBidResponse> {
         val game = this.repository.find(id)
                 ?: return ResponseEntity(IncreaseBidResponse(id, "The game $id not found"), HttpStatus.NOT_FOUND)
         try {
-            game.increaseBid(10)
+            game.increaseBid(command.amount)
         } catch (exception: IllegalArgumentException) {
-            return ResponseEntity(IncreaseBidResponse(id, "The game $id not found"), HttpStatus.BAD_REQUEST)
+            return ResponseEntity(IncreaseBidResponse(id, "Illegal argument in the game $id"), HttpStatus.BAD_REQUEST)
         }
         this.repository.save(game)
 
@@ -31,3 +28,4 @@ class IncreaseBidAction(@Autowired private val repository: Repository<Game>) {
 }
 
 data class IncreaseBidResponse(val id: String, val message: String)
+data class IncreaseBid(val amount: Int)
