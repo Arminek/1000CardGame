@@ -2,6 +2,7 @@ package com.rocketarminek.thousandcardgame.server.acceptance
 
 import com.rocketarminek.thousandcardgame.server.game.infrastructure.Configuration
 import com.rocketarminek.thousandcardgame.server.game.infrastructure.controller.GetEventsAction
+import com.rocketarminek.thousandcardgame.server.game.infrastructure.controller.IncreaseBid
 import org.amshove.kluent.invoking
 import com.rocketarminek.thousandcardgame.server.game.infrastructure.controller.Response as CreateResponse
 import org.amshove.kluent.shouldBeEqualTo
@@ -17,7 +18,7 @@ import org.springframework.web.client.RestClientException
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [GetEventsAction::class, Configuration::class])
 @ContextConfiguration(loader = AnnotationConfigContextLoader::class)
-internal class CreateGameTest(@Autowired val client: TestRestTemplate) {
+internal class GameTest(@Autowired val client: TestRestTemplate) {
     @Test
     fun `it creates game`() {
         val createResponse = client.postForEntity("/v1/games", null, CreateResponse::class.java)
@@ -27,7 +28,12 @@ internal class CreateGameTest(@Autowired val client: TestRestTemplate) {
     @Test
     fun `it increases bid`() {
         val createResponse = client.postForEntity("/v1/games", null, CreateResponse::class.java)
-        val increaseBidResponse = client.postForEntity("/v1/games/${createResponse.body?.id}/bid", null, CreateResponse::class.java)
+        val increaseBidResponse = client
+                .postForEntity(
+                        "/v1/games/${createResponse.body?.id}/bid",
+                        IncreaseBid(10),
+                        CreateResponse::class.java
+                )
         increaseBidResponse.statusCode shouldBeEqualTo HttpStatus.OK
         increaseBidResponse.body?.message shouldBeEqualTo "Ack!"
     }
