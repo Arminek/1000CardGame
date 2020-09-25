@@ -1,8 +1,6 @@
 package com.rocketarminek.thousandcardgame.server.shared
 
-abstract class ChildEntity {
-    lateinit var id: ChildId
-        protected set
+abstract class ChildEntity(val id: ChildId) {
     var root: Aggregate? = null
 
     fun apply(event: Event) {
@@ -17,5 +15,5 @@ abstract class ChildEntity {
     }
 
     protected abstract fun handle(event: Event)
-    protected fun childEntities(): ArrayList<ChildEntity> = arrayListOf()
+    protected open fun childEntities(): ArrayList<ChildEntity> = arrayListOf()
 }

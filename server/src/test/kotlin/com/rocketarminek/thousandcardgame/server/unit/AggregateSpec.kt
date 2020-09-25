@@ -109,13 +109,9 @@ internal class User: Aggregate {
         this.addressChanged = true
     }
 }
-internal class Address(id: ChildId, city: String): ChildEntity() {
+internal class Address(id: ChildId, city: String): ChildEntity(id) {
     var city = city
         private set
-
-    init {
-        this.id = id
-    }
 
     fun change(newCity: String) {
         this.apply(AddressChanged(this.id, newCity))
