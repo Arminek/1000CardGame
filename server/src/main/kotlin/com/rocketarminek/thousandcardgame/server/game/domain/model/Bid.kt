@@ -12,6 +12,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     var lastPlayer: PlayerId? = null
         private set
     private val turnSequence: TurnSequence = TurnSequence(id, playerIds)
+    private var won: Boolean = false
 
     fun start() {
         this.increase(100)
@@ -23,7 +24,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
                 this.apply(BidIncreased(it.id, this.id, this.turnSequence.current, amount))
                 this.turnSequence.next()
             }
-            if (!this.turnSequence.canSwitchTurn()) {
+            if (this.isWinning()) {
                 this.lastPlayer?.let { player ->
                     BidWon(it.id, this.id, player, this.amount)
                 }?.let { event ->
@@ -40,7 +41,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
                 this.apply(BidPassed(it.id, this.id, this.turnSequence.current))
                 this.turnSequence.next()
             }
-            if (!this.turnSequence.canSwitchTurn()) {
+            if (this.isWinning()) {
                 this.lastPlayer?.let { player ->
                     BidWon(it.id, this.id, player, this.amount)
                 }?.let { event ->
@@ -54,6 +55,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     override fun handle(event: Event) {
         when(event) {
             is BidIncreased -> this.handle(event)
+            is BidWon -> this.handle(event)
         }
     }
 
@@ -65,4 +67,10 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
         this.amount += event.amount
         this.lastPlayer = event.playerId
     }
+
+    private fun handle(event: BidWon) {
+        this.won = true
+    }
+
+    private fun isWinning() = !this.turnSequence.canSwitchTurn() && !this.won
 }
