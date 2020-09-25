@@ -92,7 +92,6 @@ object TurnFeature : Spek({
                 game.increaseBid(10)
             }
             Then("nothing should happened") {
-                game.uncommittedChanges.find { it is TurnStarted }.shouldBeNull()
                 game.uncommittedChanges.find { it is BidPassed }.shouldBeNull()
                 game.uncommittedChanges.find { it is BidIncreased }.shouldBeNull()
             }
