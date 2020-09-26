@@ -15,7 +15,7 @@ class DeclareBidAction(@Autowired private val repository: Repository<Game>) {
         val game = this.repository.find(id)
                 ?: return ResponseEntity(DeclareBidResponse(id, "The game $id not found"), HttpStatus.NOT_FOUND)
         try {
-            game.declareBid()
+            game.declareBid(command.amount)
         } catch (exception: IllegalArgumentException) {
             return ResponseEntity(DeclareBidResponse(id, "Illegal argument game ($id): ${exception.message}"), HttpStatus.BAD_REQUEST)
         }

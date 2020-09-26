@@ -15,9 +15,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     private val turnSequence: TurnSequence = TurnSequence(id, playerIds)
     private var won: Boolean = false
 
-    fun start() {
-        this.increase(100)
-    }
+    fun start() = this.increase(100)
 
     fun increase(amount: Int) {
         this.root?.let {
@@ -52,9 +50,19 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
         }
     }
 
-    fun declare() {
+    fun declare(amount: Int) {
+        if (amount > 300) {
+            throw IllegalArgumentException("Cannot increase the bid over 300")
+        }
+        if (amount < this.amount) {
+            throw IllegalArgumentException("Cannot decrease current bid!")
+        }
         if (!this.won) {
             throw IllegalArgumentException("Cannot declare not settled bid!")
+        }
+        if (amount != this.amount) {
+            val increaseAmount = amount - this.amount
+            this.root?.let { this.apply(BidIncreased(it.id, this.id, this.turnSequence.current, increaseAmount)) }
         }
         this.root?.let { this.apply(BidDeclared(it.id, this.id, this.turnSequence.current, this.amount)) }
     }
@@ -78,5 +86,6 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     private fun handle(event: BidWon) {
         this.won = true
     }
+
     private fun isWinning() = !this.turnSequence.canSwitchTurn() && !this.won
 }
