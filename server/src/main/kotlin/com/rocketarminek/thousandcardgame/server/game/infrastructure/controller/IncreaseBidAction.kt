@@ -19,7 +19,7 @@ class IncreaseBidAction(@Autowired private val repository: Repository<Game>) {
         try {
             game.increaseBid(command.amount)
         } catch (exception: IllegalArgumentException) {
-            return ResponseEntity(IncreaseBidResponse(id, "Illegal argument in the game $id"), HttpStatus.BAD_REQUEST)
+            return ResponseEntity(IncreaseBidResponse(id, "Illegal argument game ($id): ${exception.message}"), HttpStatus.BAD_REQUEST)
         }
         this.repository.save(game)
 

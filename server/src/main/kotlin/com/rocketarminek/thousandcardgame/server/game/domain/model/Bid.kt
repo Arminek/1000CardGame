@@ -20,6 +20,9 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
 
     fun increase(amount: Int) {
         this.root?.let {
+            if (this.amount + amount > 300) {
+                throw IllegalArgumentException("Cannot increase the bid over 300")
+            }
             if (this.turnSequence.canSwitchTurn()) {
                 this.apply(BidIncreased(it.id, this.id, this.turnSequence.current, amount))
                 if (this.isWinning()) {
