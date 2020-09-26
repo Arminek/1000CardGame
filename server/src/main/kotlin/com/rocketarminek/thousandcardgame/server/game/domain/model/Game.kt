@@ -39,8 +39,14 @@ class Game: Aggregate {
 
     fun passBid() {
         val bid = this.bidInProgress
-                ?: throw IllegalArgumentException("Cannot increase the bid if there is no bid in progress!")
+                ?: throw IllegalArgumentException("Cannot pass the bid if there is no bid in progress!")
         bid.pass()
+    }
+
+    fun declareBid() {
+        val bid = this.bidInProgress
+                ?: throw IllegalArgumentException("Cannot declare the bid if there is no bid in progress!")
+        bid.declare()
     }
 
     override fun handle(event: Event) {

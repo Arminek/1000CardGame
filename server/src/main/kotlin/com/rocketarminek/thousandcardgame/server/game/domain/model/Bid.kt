@@ -1,5 +1,6 @@
 package com.rocketarminek.thousandcardgame.server.game.domain.model
 
+import com.rocketarminek.thousandcardgame.server.game.domain.event.BidDeclared
 import com.rocketarminek.thousandcardgame.server.game.domain.event.BidIncreased
 import com.rocketarminek.thousandcardgame.server.game.domain.event.BidPassed
 import com.rocketarminek.thousandcardgame.server.game.domain.event.BidWon
@@ -51,6 +52,13 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
         }
     }
 
+    fun declare() {
+        if (!this.won) {
+            throw IllegalArgumentException("Cannot declare not settled bid!")
+        }
+        this.root?.let { this.apply(BidDeclared(it.id, this.id, this.turnSequence.current, this.amount)) }
+    }
+
     override fun handle(event: Event) {
         when(event) {
             is BidIncreased -> this.handle(event)
@@ -70,6 +78,5 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     private fun handle(event: BidWon) {
         this.won = true
     }
-
     private fun isWinning() = !this.turnSequence.canSwitchTurn() && !this.won
 }
