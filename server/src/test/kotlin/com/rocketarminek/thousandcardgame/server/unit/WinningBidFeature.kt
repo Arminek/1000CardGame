@@ -45,7 +45,6 @@ object WinningBidFeature : Spek({
                         it.playerId shouldBeEqualTo "playerC"
                     }
                 }
-                game.uncommittedChanges.filter { it is TurnStarted }.size shouldBeEqualTo 2
             }
         }
     }
