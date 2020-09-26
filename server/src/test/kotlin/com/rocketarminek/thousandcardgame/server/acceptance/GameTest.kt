@@ -38,6 +38,19 @@ internal class GameTest(@Autowired val client: TestRestTemplate) {
         increaseBidResponse.body?.message shouldBeEqualTo "Ack!"
     }
     @Test
+    fun `it handle domain errors`() {
+        val createResponse = client.postForEntity("/v1/games", null, CreateResponse::class.java)
+        val id = createResponse.body?.id
+        val increaseBidResponse = client
+                .postForEntity(
+                        "/v1/games/${id}/bid",
+                        IncreaseBid(400),
+                        CreateResponse::class.java
+                )
+        increaseBidResponse.statusCode shouldBeEqualTo HttpStatus.BAD_REQUEST
+        increaseBidResponse.body?.message shouldBeEqualTo "Illegal argument game ($id): Cannot increase the bid over 300"
+    }
+    @Test
     fun `it passes bid`() {
         val createResponse = client.postForEntity("/v1/games", null, CreateResponse::class.java)
         invoking { client.delete("/v1/games/${createResponse.body?.id}/bid") } shouldNotThrow RestClientException::class
