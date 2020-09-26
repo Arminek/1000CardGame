@@ -22,15 +22,14 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
         this.root?.let {
             if (this.turnSequence.canSwitchTurn()) {
                 this.apply(BidIncreased(it.id, this.id, this.turnSequence.current, amount))
-                this.turnSequence.next()
-            }
-            if (this.isWinning()) {
-                this.lastPlayer?.let { player ->
-                    BidWon(it.id, this.id, player, this.amount)
-                }?.let { event ->
-                    this.apply(event)
-                    this.turnSequence.next()
+                if (this.isWinning()) {
+                    this.lastPlayer?.let { player ->
+                        BidWon(it.id, this.id, player, this.amount)
+                    }?.let { event ->
+                        this.apply(event)
+                    }
                 }
+                this.turnSequence.next()
             }
         }
     }
@@ -39,15 +38,12 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
         this.root?.let {
             if (this.turnSequence.canSwitchTurn()) {
                 this.apply(BidPassed(it.id, this.id, this.turnSequence.current))
-                this.turnSequence.next()
-            }
-            if (this.isWinning()) {
-                this.lastPlayer?.let { player ->
-                    BidWon(it.id, this.id, player, this.amount)
-                }?.let { event ->
-                    this.apply(event)
-                    this.turnSequence.next()
+                if (this.isWinning()) {
+                    this.lastPlayer?.let { player ->
+                        BidWon(it.id, this.id, player, this.amount)
+                    }?.let { event -> this.apply(event) }
                 }
+                this.turnSequence.next()
             }
         }
     }
