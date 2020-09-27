@@ -1,11 +1,10 @@
 package com.rocketarminek.thousandcardgame.server.game.domain.model
 
-import com.rocketarminek.thousandcardgame.server.game.domain.event.BidDeclared
-import com.rocketarminek.thousandcardgame.server.game.domain.event.BidIncreased
-import com.rocketarminek.thousandcardgame.server.game.domain.event.BidPassed
-import com.rocketarminek.thousandcardgame.server.game.domain.event.BidWon
+import com.rocketarminek.thousandcardgame.server.game.domain.event.*
 import com.rocketarminek.thousandcardgame.server.shared.ChildEntity
 import com.rocketarminek.thousandcardgame.server.shared.Event
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     var amount = 0
@@ -15,8 +14,6 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     private val turnSequence: TurnSequence = TurnSequence(id, playerIds)
     private var won: Boolean = false
     private var declared: Boolean = false
-
-    fun start() = this.increase(100)
 
     fun increase(amount: Int) {
         this.root?.let {
@@ -69,6 +66,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
             this.root?.let { this.apply(BidIncreased(it.id, this.id, this.turnSequence.current, increaseAmount)) }
         }
         this.root?.let { this.apply(BidDeclared(it.id, this.id, this.turnSequence.current, this.amount)) }
+        startNewBid()
     }
 
     override fun handle(event: Event) {
@@ -97,4 +95,12 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     }
 
     private fun isWinning() = !this.turnSequence.canSwitchTurn() && !this.won
+
+    private fun startNewBid() {
+        val bidId = UUID.randomUUID().toString()
+        val nextSequence = this.turnSequence.nextSequence(bidId)
+        this.root?.let { this.apply(BidStarted(it.id, bidId, nextSequence.playerIds)) }
+        this.root?.let { this.apply(BidIncreased(it.id, bidId, nextSequence.current, 100)) }
+        this.root?.let { this.apply(TurnStarted(it.id, nextSequence.getNext())) }
+    }
 }
