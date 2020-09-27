@@ -31,7 +31,13 @@ object DeclaringBidFeature : Spek({
                 game.declareBid(110)
             }
             Then("The bid should not be increased") {
-                game.uncommittedChanges.find { it is BidIncreased }.shouldBeNull()
+                game.uncommittedChanges.find { it is BidIncreased }.let {
+                    it.shouldNotBeNull()
+                    if (it is BidIncreased) {
+                        it.id shouldBeEqualTo "#123"
+                        it.bidId shouldNotBeEqualTo "bid1"
+                    }
+                }
             }
             And("The bid should be declared with 110") {
                 game.uncommittedChanges.find { it is BidDeclared }.let {

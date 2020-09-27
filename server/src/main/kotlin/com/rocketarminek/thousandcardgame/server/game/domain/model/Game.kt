@@ -64,7 +64,7 @@ class Game: Aggregate {
 
     private fun startBid(id: GameId, playerIds: ArrayList<PlayerId>) {
         this.apply(BidStarted(id, UUID.randomUUID().toString(), playerIds))
-        this.bidInProgress?.start()
+        this.bidInProgress?.increase(100)
     }
 
     private fun handle(event: GameCreated) {
