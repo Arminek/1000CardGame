@@ -50,7 +50,7 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
             }
         }
     }
-8
+
     fun declare(amount: Int) {
         if (this.declared) {
             throw IllegalArgumentException("Cannot declare already declared bid!")
