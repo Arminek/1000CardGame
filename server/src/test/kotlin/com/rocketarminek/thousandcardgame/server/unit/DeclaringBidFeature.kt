@@ -8,7 +8,7 @@ import org.spekframework.spek2.style.gherkin.Feature
 
 object DeclaringBidFeature : Spek({
     Feature("Declaring the bid") {
-        Scenario("Declaring the bid with increasing the bid amount") {
+        Scenario("Declaring the bid") {
             lateinit var game: Game
             Given("there is a game") {
                 game = Game(
@@ -27,7 +27,7 @@ object DeclaringBidFeature : Spek({
                         )
                 )
             }
-            When("I declare the bid with 200") {
+            When("I declare the bid with 110") {
                 game.declareBid(110)
             }
             Then("The bid should not be increased") {
@@ -174,6 +174,32 @@ object DeclaringBidFeature : Spek({
             Then("I should not be able to declare the bid with 310") {
                 invoking { game.declareBid(310) } shouldThrow IllegalArgumentException::class
                 invoking { game.declareBid(300) } shouldNotThrow IllegalArgumentException::class
+            }
+        }
+
+        Scenario("Trying to declare the bid second time") {
+            lateinit var game: Game
+            Given("there is a game") {
+                game = Game(
+                        arrayListOf(
+                                GameCreated("#123", arrayListOf("playerA", "playerB", "playerC")),
+                                BidStarted("#123", "bid1", arrayListOf("playerA", "playerB", "playerC")),
+                                BidIncreased("#123", "bid1", "playerA", 100),
+                                TurnStarted("#123", "playerB"),
+                                BidPassed("#123", "bid1", "playerB"),
+                                TurnStarted("#123", "playerC"),
+                                BidIncreased("#123", "bid1", "playerC", 10),
+                                TurnStarted("#123", "playerA"),
+                                BidPassed("#123", "bid1", "playerA"),
+                                BidWon("#123", "bid1", "playerC", 110),
+                                TurnStarted("#123", "playerC"),
+                                BidDeclared("#123", "bid1", "playerC", 110)
+                        )
+                )
+            }
+            Then("I should not be able to declare the bid again") {
+                invoking { game.declareBid(200) } shouldThrow IllegalArgumentException::class
+                invoking { game.declareBid(110) } shouldThrow IllegalArgumentException::class
             }
         }
     }
