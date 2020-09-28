@@ -1,21 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MainMenuComponent } from './main-menu.component';
+import { GameComponent } from './board.component';
 
-describe('MainMenuComponent', () => {
+describe('BoardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
       declarations: [
-        MainMenuComponent
+        GameComponent
       ],
     }).compileComponents();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(MainMenuComponent);
+    const fixture = TestBed.createComponent(GameComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });

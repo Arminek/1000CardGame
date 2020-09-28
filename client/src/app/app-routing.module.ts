@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {MainMenuComponent} from './main-menu/main-menu.component';
 
 export const routes: Routes = [
-  { path: '', component: MainMenuComponent, pathMatch: 'full'},
-  { path: 'board', loadChildren: () => import('./board/board.module').then(m => m.BoardModule) },
+  { path: '', redirectTo: 'menu', pathMatch: 'full'},
+  { path: 'menu', loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule) },
+  { path: 'game', loadChildren: () => import('./game/game.module').then(m => m.GameModule) },
 ];
 
 @NgModule({

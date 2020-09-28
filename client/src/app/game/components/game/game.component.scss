@@ -1,0 +1,22 @@
+:host {
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+}
+
+.game {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 0 10rem 0 20rem;
+  position: relative;
+}
+
+.game__id {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 20rem;
+  font-size: 0.8rem;
+}
