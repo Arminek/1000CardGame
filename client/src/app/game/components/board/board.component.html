@@ -1,0 +1,18 @@
+<div class="board">
+  <div class="player__bid">
+    {{ bidAmount }}
+  </div>
+  <div class="player" [ngClass]="'player-'+i" *ngFor="let player of playersIds; let i = index" [attr.data-index]="i">
+    <div class="player__logo">
+    </div>
+    <div class="player__name">
+      Player#{{player.split('-')[0]}}
+    </div>
+    <div class="player__actions" *ngIf="currentPlayerId === player">
+      <button type="button" class="action__bid" (click)="increaseBid(10)">Bid 10</button>
+      <button type="button" class="action__bid" (click)="increaseBid(20)">Bid 20</button>
+      <button type="button" class="action__bid" (click)="increaseBid(30)">Bid 30</button>
+      <button type="button" class="action__pass" (click)="passBid()">Pass</button>
+    </div>
+  </div>
+</div>
