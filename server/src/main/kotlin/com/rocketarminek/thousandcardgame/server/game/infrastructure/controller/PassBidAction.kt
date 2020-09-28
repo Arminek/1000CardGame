@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 class PassBidAction(@Autowired private val repository: Repository<Game>) {
     @CrossOrigin
     @DeleteMapping(value = ["/v1/games/{id}/bid"])
-    fun increaseBid(@PathVariable id: String): ResponseEntity<PassBidResponse> {
+    fun passBid(@PathVariable id: String): ResponseEntity<PassBidResponse> {
         val game = this.repository.find(id)
                 ?: return ResponseEntity(PassBidResponse(id, "The game $id not found"), HttpStatus.NOT_FOUND)
         try {

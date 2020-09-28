@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 class DeclareBidAction(@Autowired private val repository: Repository<Game>) {
     @CrossOrigin
     @PostMapping(value = ["/v1/games/{id}/declare"])
-    fun increaseBid(@PathVariable id: String, @RequestBody command: DeclareBid): ResponseEntity<DeclareBidResponse> {
+    fun declareBid(@PathVariable id: String, @RequestBody command: DeclareBid): ResponseEntity<DeclareBidResponse> {
         val game = this.repository.find(id)
                 ?: return ResponseEntity(DeclareBidResponse(id, "The game $id not found"), HttpStatus.NOT_FOUND)
         try {
