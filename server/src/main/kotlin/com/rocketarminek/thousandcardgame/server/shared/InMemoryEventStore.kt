@@ -1,7 +1,9 @@
 package com.rocketarminek.thousandcardgame.server.shared
 
+import java.util.concurrent.ConcurrentHashMap
+
 class InMemoryEventStore : EventStore {
-    private var memory: Map<AggregateId, ArrayList<Event>> = mapOf()
+    private var memory: Map<AggregateId, ArrayList<Event>> = ConcurrentHashMap()
 
     override fun save(id: AggregateId, events: ArrayList<Event>) {
         val committedEvents = this.memory.get(id) ?: arrayListOf()
