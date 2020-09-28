@@ -17,7 +17,7 @@ class Game: Aggregate {
         private set
     private var bidInProgress: Bid? = null
 
-    constructor(events: ArrayList<Event>): super(events)
+    constructor(events: List<Event>): super(events)
     constructor(id: GameId, playerIds: ArrayList<PlayerId>) {
         if (playerIds.distinct().size != playerIds.size) {
             throw IllegalArgumentException("Cannot create a game with duplicated players.")
@@ -56,8 +56,8 @@ class Game: Aggregate {
         }
     }
 
-    override fun childEntities(): ArrayList<ChildEntity> {
-        val bid = this.bidInProgress ?: return arrayListOf()
+    override fun childEntities(): List<ChildEntity> {
+        val bid = this.bidInProgress ?: return listOf()
 
         return arrayListOf(bid)
     }

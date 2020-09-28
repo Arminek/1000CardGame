@@ -8,7 +8,7 @@ class UnicastReactiveEventStore(processor: UnicastProcessor<Event>) : ReactiveEv
     private val fluxSink: FluxSink<Event> = processor.sink(FluxSink.OverflowStrategy.LATEST)
     private val hotFlux: Flux<Event> = processor.replay().autoConnect()
 
-    override fun save(events: ArrayList<Event>) {
+    override fun save(events: List<Event>) {
         for (event in events) {
             this.fluxSink.next(event)
         }
