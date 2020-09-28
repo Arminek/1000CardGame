@@ -93,6 +93,42 @@ object BiddingFeature : Spek({
             }
         }
 
+        Scenario("Trying to pass the bid after bid is won") {
+            lateinit var game: Game
+            Given("there is a game in progress") {
+                game = Game(
+                        arrayListOf(
+                                GameCreated("#123", arrayListOf("player#123", "player#321", "player#333")),
+                                BidStarted("#123", "bid#123", arrayListOf("player#123", "player#321", "player#333")),
+                                BidIncreased("#123", "bid#123", "player#123", 100),
+                                TurnStarted("#123", "player#321"),
+                                BidWon("#123", "bid1", "player#321", 100)
+                        )
+                )
+            }
+            Then("I should not be able to pass the bid") {
+                invoking { game.passBid() } shouldThrow IllegalArgumentException::class
+            }
+        }
+
+        Scenario("Trying to increase the bid after bid is won") {
+            lateinit var game: Game
+            Given("there is a game in progress") {
+                game = Game(
+                        arrayListOf(
+                                GameCreated("#123", arrayListOf("player#123", "player#321", "player#333")),
+                                BidStarted("#123", "bid#123", arrayListOf("player#123", "player#321", "player#333")),
+                                BidIncreased("#123", "bid#123", "player#123", 100),
+                                TurnStarted("#123", "player#321"),
+                                BidWon("#123", "bid1", "player#321", 100)
+                        )
+                )
+            }
+            Then("I should not be able to increase the bid") {
+                invoking { game.increaseBid(10) } shouldThrow IllegalArgumentException::class
+            }
+        }
+
         Scenario("Trying to increase the bid over 300") {
             lateinit var game: Game
             Given("there is a game in progress") {
