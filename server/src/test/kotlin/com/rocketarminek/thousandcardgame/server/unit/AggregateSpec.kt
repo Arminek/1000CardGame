@@ -52,10 +52,30 @@ object AggregateSpec: Spek({
     }
 })
 
-internal data class Created(override val id: AggregateId, val name: String): Event
-internal data class NameChanged(override val id: AggregateId, val newName: String): Event
-internal data class AddressAdded(override val id: ChildId, val city: String): Event
-internal data class AddressChanged(override val id: ChildId, val newCity: String): Event
+internal data class Created(override val id: AggregateId, val name: String): BaseEvent<Created>() {
+    override fun deepCopy(): Event {
+        return this.deepCopy(Created::class.java)
+    }
+}
+
+internal data class NameChanged(override val id: AggregateId, val newName: String): BaseEvent<NameChanged>() {
+    override fun deepCopy(): Event {
+        return this.deepCopy(NameChanged::class.java)
+    }
+}
+
+internal data class AddressAdded(override val id: ChildId, val city: String): BaseEvent<AddressAdded>() {
+    override fun deepCopy(): Event {
+        return this.deepCopy(AddressAdded::class.java)
+    }
+}
+
+internal data class AddressChanged(override val id: ChildId, val newCity: String): BaseEvent<AddressChanged>() {
+    override fun deepCopy(): Event {
+        return this.deepCopy(AddressChanged::class.java)
+    }
+}
+
 internal class User: Aggregate {
     var addressChanged: Boolean = false
         private set
