@@ -16,6 +16,9 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     private var declared: Boolean = false
 
     fun increase(amount: Int) {
+        if (this.won) {
+            throw IllegalArgumentException("Player ${this.lastPlayer} already won the bid!")
+        }
         this.root?.let {
             if (this.amount + amount > 300) {
                 throw IllegalArgumentException("Cannot increase the bid over 300")
@@ -35,6 +38,9 @@ class Bid(id: BidId, playerIds: ArrayList<PlayerId>): ChildEntity(id) {
     }
 
     fun pass() {
+        if (this.won) {
+            throw IllegalArgumentException("Player ${this.lastPlayer} already won the bid!")
+        }
         this.root?.let {
             if (this.turnSequence.canSwitchTurn()) {
                 this.apply(BidPassed(it.id, this.id, this.turnSequence.current))
