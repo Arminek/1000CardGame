@@ -21,7 +21,7 @@ object ReactiveEventStoreSpec: Spek({
         it("publishes new events into to the reactive stream during storing events") {
             every { unicastProcessor.replay().autoConnect() } returns Flux.empty()
             val id = "#123"
-            val events = arrayListOf(Created(id, "Jon"), NameChanged(id, "Snow"))
+            val events: ArrayList<Event> = arrayListOf(Created(id, "Jon"), NameChanged(id, "Snow"))
             for (event in events) {
                 every { fluxSink.next(event) } returns fluxSink
             }
@@ -34,7 +34,7 @@ object ReactiveEventStoreSpec: Spek({
                     Created("#321", "Walter"),
                     Created("#444", "Mike")
             )
-            val hotFlux = Flux.fromIterable(events)
+            val hotFlux: Flux<Event> = Flux.fromIterable(events)
             every { unicastProcessor.replay().autoConnect() } returns hotFlux
 
             StepVerifier
