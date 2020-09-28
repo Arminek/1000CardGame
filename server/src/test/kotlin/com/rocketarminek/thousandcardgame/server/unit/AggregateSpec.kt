@@ -88,7 +88,7 @@ internal class User: Aggregate {
         this.apply(Created(id, name))
     }
 
-    constructor(events: ArrayList<Event>): super(events)
+    constructor(events: List<Event>): super(events)
 
     fun changeName(newName: String) {
         val address = this.address
@@ -109,8 +109,8 @@ internal class User: Aggregate {
             is AddressChanged -> handle(event)
         }
     }
-    override fun childEntities(): ArrayList<ChildEntity> {
-        val address = this.address ?: return arrayListOf()
+    override fun childEntities(): List<ChildEntity> {
+        val address = this.address ?: return listOf()
 
         return arrayListOf(address)
     }
