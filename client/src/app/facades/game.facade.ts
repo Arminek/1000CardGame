@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 import * as GameSelectors from '../reducers/game.reducer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
-import {addLog, bidIncreased, bidStarted, gameCreated, turnStarted} from '../actions/game.actions';
+import {addLog, bidIncreased, bidStarted, bidWon, gameCreated, turnStarted} from '../actions/game.actions';
 import {take} from 'rxjs/operators';
 
 @Injectable()
@@ -68,7 +68,28 @@ export class GameFacade {
 
   increaseBid(amount: number): void {
     this.selectGameId().pipe(take(1)).subscribe(gameId => {
-      this.getGameService.postIncreaseBid(gameId, amount).then();
+      this.getGameService.postIncreaseBid(gameId, amount).then().catch(error => {
+        console.log(error);
+        this.store.dispatch(addLog({message: error.error.message}));
+      });
+    });
+  }
+
+  passBid(): void {
+    this.selectGameId().pipe(take(1)).subscribe(gameId => {
+      this.getGameService.deletePassBid(gameId).then().catch(error => {
+        console.log(error);
+        this.store.dispatch(addLog({message: error.error.message}));
+      });
+    });
+  }
+
+  declareBid(amount: number): void {
+    this.selectGameId().pipe(take(1)).subscribe(gameId => {
+      this.getGameService.postDeclareBid(gameId, amount).then().catch(error => {
+        console.log(error);
+        this.store.dispatch(addLog({message: error.error.message}));
+      });
     });
   }
 
@@ -93,6 +114,19 @@ export class GameFacade {
             }
             case 'turn-started': {
               this.store.dispatch(turnStarted({event}));
+              break;
+            }
+            case 'bid-passed': {
+              message = `Player#${event.playerId.split('-')[0]} [${event.type}]`;
+              break;
+            }
+            case 'bid-won': {
+              this.store.dispatch(bidWon({event}));
+              message = `Player#${event.playerId.split('-')[0]} [${event.type}] won`;
+              break;
+            }
+            case 'bid-declared': {
+              message = `Player#${event.playerId.split('-')[0]} [${event.type}] by ${event.amount}`;
               break;
             }
           }

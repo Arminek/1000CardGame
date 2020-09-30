@@ -1,6 +1,13 @@
 <div class="game">
-  <app-board [bidAmount]="playerBid()" [playersIds]="playersIds" [currentPlayerId]="currentPlayerId"
-             (increaseBidEmit)="increaseBid($event)"></app-board>
+  <app-board
+    [bidAmount]="playerBid()"
+    [playersIds]="playersIds"
+    [currentPlayerId]="currentPlayerId"
+    [currentBid]="currentBid()"
+    (increaseBidEmit)="increaseBid($event)"
+    (passBidEmit)="passBid()"
+    (declareBidEmit)="declareBid($event)">
+  </app-board>
   <app-logs [logs]="logs"></app-logs>
   <div class="game__id">{{ gameId }}</div>
 </div>

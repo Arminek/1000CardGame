@@ -1,5 +1,5 @@
 import {createReducer, on, createFeatureSelector, createSelector} from '@ngrx/store';
-import {addLog, bidIncreased, bidStarted, gameCreated, gameStarted, turnStarted} from '../actions/game.actions';
+import {addLog, bidIncreased, bidStarted, bidWon, gameCreated, gameStarted, turnStarted} from '../actions/game.actions';
 
 export interface GameState {
   playerIds: Array<string>;
@@ -65,11 +65,23 @@ export const GameStateReducer = createReducer(
       playerIds: event.playerIds
     };
   }),
+  on(addLog, (state, {message}) => {
+    return {
+      ...state,
+      logs: [...state.logs, message]
+    };
+  }),
+  on(turnStarted, (state, {event}) => {
+    return {
+      ...state,
+      currentPlayerId: event.playerId
+    };
+  }),
   on(bidStarted, (state, {event}) => {
     return {
       ...state,
       currentBidId: event.bidId,
-      bids: Object.assign({}, state.bids, {[event.bidId]: {bidId: event.bidId, entities: []}})
+      bids: Object.assign({}, state.bids, {[event.bidId]: {bidId: event.bidId, entities: [], won: false}})
     };
   }),
   on(bidIncreased, (state, {event}) => {
@@ -83,16 +95,15 @@ export const GameStateReducer = createReducer(
       })
     };
   }),
-  on(turnStarted, (state, {event}) => {
+  on(bidWon, (state, {event}) => {
     return {
       ...state,
-      currentPlayerId: event.playerId
-    };
-  }),
-  on(addLog, (state, {message}) => {
-    return {
-      ...state,
-      logs: [...state.logs, message]
+      bids: Object.assign({}, state.bids, {
+        [event.bidId]: {
+          ...state.bids[event.bidId],
+          won: true
+        }
+      })
     };
   }),
 );

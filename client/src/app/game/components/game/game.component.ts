@@ -86,6 +86,18 @@ export class GameComponent implements OnInit, OnDestroy {
     this.gameFacade.increaseBid(amount);
   }
 
+  passBid(): void {
+    this.gameFacade.passBid();
+  }
+
+  currentBid(): any {
+    return this.bids[this.currentBidId];
+  }
+
+  declareBid($event): void {
+    this.gameFacade.declareBid($event);
+  }
+
   playerBid(): number {
     const bidEntities = this.bids[this.currentBidId];
     if (!bidEntities) {

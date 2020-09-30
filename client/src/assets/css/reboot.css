@@ -211,6 +211,7 @@ label {
 }
 
 button {
+  cursor: pointer;
   border-radius: 0;
 }
 

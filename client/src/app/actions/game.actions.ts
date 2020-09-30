@@ -36,3 +36,8 @@ export const turnStarted = createAction(
   '[Game] Event received - turn-started',
   props<{ event: any }>()
 );
+export const bidWon = createAction(
+  '[Game] Event received - bid-won',
+  props<{ event: any }>()
+);
+
