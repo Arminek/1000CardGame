@@ -4,15 +4,24 @@
   </div>
   <div class="player" [ngClass]="'player-'+i" *ngFor="let player of playersIds; let i = index" [attr.data-index]="i">
     <div class="player__logo">
+      <img [src]="'https://placeimg.com/50/50/any?'+i">
     </div>
     <div class="player__name">
       Player#{{player.split('-')[0]}}
     </div>
     <div class="player__actions" *ngIf="currentPlayerId === player">
-      <button type="button" class="action__bid" (click)="increaseBid(10)">Bid 10</button>
-      <button type="button" class="action__bid" (click)="increaseBid(20)">Bid 20</button>
-      <button type="button" class="action__bid" (click)="increaseBid(30)">Bid 30</button>
-      <button type="button" class="action__pass" (click)="passBid()">Pass</button>
+      <ng-container *ngIf="!currentBid.won">
+        <div class="action__bid">
+          <button type="button" (click)="increaseBid(10)">Bid 10</button>
+          <button type="button" (click)="increaseBid(20)">Bid 20</button>
+          <button type="button" (click)="increaseBid(30)">Bid 30</button>
+        </div>
+        <button type="button" class="action__pass" (click)="passBid()">Pass</button>
+      </ng-container>
+      <ng-container *ngIf="currentBid.won">
+        <input type="number" class="declare__input" [(ngModel)]="declaredAmount">
+        <button type="button" class="action__pass" (click)="declareBid()">Declare</button>
+      </ng-container>
     </div>
   </div>
 </div>

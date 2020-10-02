@@ -20,6 +20,14 @@ export class GameService {
     return this.http.post<any>(`${environment.url}${id}/bid`, {amount}).toPromise().then(response => response);
   }
 
+  deletePassBid(id: string): Promise<any> {
+    return this.http.delete<any>(`${environment.url}${id}/bid`).toPromise().then(response => response);
+  }
+
+  postDeclareBid(id: string, amount: number): Promise<any> {
+    return this.http.post<any>(`${environment.url}${id}/declare`, {amount}).toPromise().then(response => response);
+  }
+
   get(url: string, options: {
     withCredentials?: boolean,
     /**

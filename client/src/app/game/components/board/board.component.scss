@@ -47,13 +47,69 @@
   width: 3rem;
   background-color: #ffffff;
   border-radius: 50%;
+
+  > img {
+    border-radius: 3rem;
+  }
 }
 
+.player__name {
+  margin-bottom: 0.5rem;
+}
 
 .action__bid {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  button {
+    background-color: transparent;
+    border-radius: 3.2rem;
+    height: 3rem;
+    width: 3rem;
+    line-height: 0.7rem;
+    color: #ffffff;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    box-shadow: 0 0 9px 2px #24d431, 0 0 9px 2px #24d431 inset;
+    border: 1px solid #24d431;
+
+    &:hover {
+      color: #24d431;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.action__pass {
+  width: 40%;
   background-color: transparent;
   border: 1px solid #ffffff;
   border-radius: 0.2rem;
   color: #ffffff;
   font-size: 0.9rem;
+
+  &:hover {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+.player__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.declare__input {
+  padding: 0.4rem;
+  width: 30%;
+  margin-right: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  line-height: 1rem;
 }
