@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: 1000-card-game-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: rocketarminek.com
+      http:
+        paths:
+          - path: /1000/api(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: api-game-server
+              servicePort: 8080
