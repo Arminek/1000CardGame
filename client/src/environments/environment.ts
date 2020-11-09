@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:8080/v1/games/'
+  url: 'http://localhost:8080'
 };
 
 /*
