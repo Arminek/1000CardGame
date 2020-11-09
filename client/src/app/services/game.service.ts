@@ -13,19 +13,19 @@ export class GameService {
   }
 
   postGames(): Promise<any> {
-    return this.http.post<any>(environment.url, {}).toPromise().then(response => response);
+    return this.http.post<any>(`${environment.url}/v1/games`, {}).toPromise().then(response => response);
   }
 
   postIncreaseBid(id: string, amount: number): Promise<any> {
-    return this.http.post<any>(`${environment.url}${id}/bid`, {amount}).toPromise().then(response => response);
+    return this.http.post<any>(`${environment.url}/v1/games/${id}/bid`, {amount}).toPromise().then(response => response);
   }
 
   deletePassBid(id: string): Promise<any> {
-    return this.http.delete<any>(`${environment.url}${id}/bid`).toPromise().then(response => response);
+    return this.http.delete<any>(`${environment.url}/v1/games/${id}/bid`).toPromise().then(response => response);
   }
 
   postDeclareBid(id: string, amount: number): Promise<any> {
-    return this.http.post<any>(`${environment.url}${id}/declare`, {amount}).toPromise().then(response => response);
+    return this.http.post<any>(`${environment.url}/v1/games/${id}/declare`, {amount}).toPromise().then(response => response);
   }
 
   get(url: string, options: {

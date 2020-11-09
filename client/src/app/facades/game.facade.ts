@@ -95,7 +95,7 @@ export class GameFacade {
 
   startGameEvent(): void {
     this.selectGameId().pipe(take(1)).subscribe(gameId => {
-      this.getGameService.get(`${gameId}/events`, {keepOpenWhenUnsubscribe: true}).subscribe(event => {
+      this.getGameService.get(`/v1/games/${gameId}/events`, {keepOpenWhenUnsubscribe: true}).subscribe(event => {
           console.log(event);
           let message = '';
           switch (event.type) {
@@ -140,7 +140,7 @@ export class GameFacade {
 
   closeGameEvent(): void {
     this.selectGameId().pipe(take(1)).subscribe(gameId => {
-      closeEventSource(`${environment.url}${gameId}/events`);
+      closeEventSource(`${environment.url}/v1/games/${gameId}/events`);
     });
   }
 }
