@@ -9,7 +9,7 @@ spec:
     - host: rocketarminek.com
       http:
         paths:
-          - path: /1000(/|$)(.*)
+          - path: /projects/1000(/|$)(.*)
             pathType: Prefix
             backend:
               serviceName: game-client

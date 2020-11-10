@@ -34,6 +34,8 @@
           },
           "configurations": {
             "production": {
+              "deployUrl": "/projects/1000/",
+              "baseHref": "/projects/1000/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

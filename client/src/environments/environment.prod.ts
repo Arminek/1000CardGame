@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'http://rocketarminek.com/1000/api'
+  url: 'http://rocketarminek.com/projects/1000/api'
 };
