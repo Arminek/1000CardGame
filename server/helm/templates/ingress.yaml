@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-    - host: rocketarminek.com
+    - host: arkadiuszkrakowiak.com
       http:
         paths:
           - path: /projects/1000/api(/|$)(.*)
