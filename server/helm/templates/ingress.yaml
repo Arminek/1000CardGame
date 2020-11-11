@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: 1000-card-game-ingress
@@ -18,5 +18,7 @@ spec:
           - path: /projects/1000/api(/|$)(.*)
             pathType: Prefix
             backend:
-              serviceName: api-game-server
-              servicePort: 8080
+              service:
+                name: api-game-server
+                port:
+                  number: 8080
