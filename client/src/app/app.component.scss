@@ -1,4 +1,4 @@
-header {
+.game__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,7 +15,6 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
   border-bottom: 1px solid #758d972b;
   cursor: pointer;
 
@@ -42,9 +41,10 @@ header {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  z-index: 111;
 
   &.blur {
     background-color: #000000;
@@ -59,7 +59,7 @@ header {
   z-index: 99;
 
   &.background-city-1 {
-    background-image: url("../assets/images/fezbot2000-D6Fskq4Rx70-unsplash.jpg");
+    background-image: url("../assets/images/adrian-trinkaus-qsjxGuqBYmY-unsplash.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -97,64 +97,31 @@ header {
   background-image: url("../assets/images/fezbot2000-D6Fskq4Rx70-unsplash.jpg");
 }
 
-@function generate-random-stars ($screen-width, $screen-height, $color, $density){
-
-  $h-shadow: random($screen-width);
-  $v-shadow: random($screen-height);
-
-  $stars: '#{$h-shadow}px #{$screen-height}px #{$color}';
-  @for $i from 2 through $density {
-    $h-shadow: random($screen-width);
-    $v-shadow: random($screen-height);
-
-    $stars: '#{$stars}, #{$h-shadow}px #{$v-shadow}px #{$color}';
+@media all and (max-width: 576px) {
+  .game__header {
+    padding: 3rem;
   }
-  @return unquote($stars);
-}
 
-@mixin stars-content($screen-width, $screen-height, $color, $density, $speed, $delay) {
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  opacity: 0;
-  box-shadow: generate-random-stars($screen-width, $screen-height, $color, $density);
-  animation-name: glowing-stars;
-  animation-duration: $speed+s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-timing-function: linear;
-  animation-delay: $delay+s;
-}
+  .logo {
+    .logo__part1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-right: 1rem;
+      line-height: 3rem;
+      text-shadow: 0 0 10px #ffffff;
+    }
 
-//Change colors for multi-colors star groups
+    .logo__part2 {
+      font-size: 1.5rem;
+      font-weight: 200;
+      text-transform: uppercase;
+      width: 6rem;
+      line-height: 1;
+    }
+  }
 
-#stars-group-1{
-  @include stars-content(1800, 500, #fff, 75, 1.5, 0);
-}
-
-#stars-group-2{
-  @include stars-content(1800, 500, #fff, 25, 1.5, 0.2);
-}
-
-#stars-group-3{
-  @include stars-content(1800, 500, #fff, 50, 1.5, 0.4);
-}
-
-#stars-group-4{
-  @include stars-content(1800, 500, #fff, 25, 1.5, 0.6);
-}
-
-#stars-group-5{
-  @include stars-content(1800, 500, #fff, 75, 1.5, 0.7);
-}
-
-#stars-group-6{
-  @include stars-content(1800, 1000, #fff, 25, 1.5, 1);
-}
-
-
-@keyframes glowing-stars {
-  0%   {opacity: 0;}
-  50%  {opacity: 1;}
-  100% {opacity: 0;}
+  .footer {
+    justify-content: center;
+    padding: 2rem;
+  }
 }
