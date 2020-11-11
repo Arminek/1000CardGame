@@ -24,7 +24,7 @@
     font-weight: bold;
     margin-right: 1rem;
     line-height: 3rem;
-    text-shadow: 0 0 10px #ffffff;
+    text-shadow: 0 0 12px #ffffff;
   }
 
   .logo__part2 {
@@ -74,21 +74,10 @@
   z-index: 100;
 
   .social {
-    display: flex;
+    display: contents;
 
-    .social__link {
-      color: #ffffff;
-      margin-right: 3rem;
-      display: flex;
-      align-items: center;
-
-      &:last-child {
-        margin-right: 0;
-      }
-
-      img {
-        margin-right: 0.5rem;
-      }
+    svg {
+      height: 3rem;
     }
   }
 }
