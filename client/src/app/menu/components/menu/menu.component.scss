@@ -16,10 +16,10 @@
   font-weight: 200;
   font-size: 4rem;
   border-radius: 0.2rem;
-  padding: 1rem;
-  -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon1 1.5s ease-in-out infinite alternate;
-  animation: neon1 1.5s ease-in-out infinite alternate;
+  padding: 3rem;
+  -webkit-animation: glow 1.5s ease-in-out infinite alternate;
+  -moz-animation: glow 1.5s ease-in-out infinite alternate;
+  animation: glow 1.5s ease-in-out infinite alternate;
 
   &:hover {
     cursor: pointer;
@@ -29,26 +29,20 @@
   }
 }
 
-@-webkit-keyframes neon1 {
+@keyframes glow {
   from {
-    text-shadow: 0 0 5px #fff, 0 0 15px #fff, 0 0 25px #fff, 0 0 35px #fff, 0 0 65px #fff, 0 0 75px #fff, 0 0 95px #fff, 0 0 120px #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff, 0 0 25px #fff, 0 0 30px #fff, 0 0 35px #fff;
   }
   to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff, 0 0 35px #fff, 0 0 40px #fff, 0 0 50px #fff, 0 0 75px #fff;
-  }
-}
-
-@keyframes neon1 {
-  from {
-    text-shadow: 0 0 5px #fff, 0 0 15px #fff, 0 0 25px #fff, 0 0 35px #fff, 0 0 65px #fff, 0 0 75px #fff, 0 0 95px #fff, 0 0 120px #fff;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #fff, 0 0 35px #fff, 0 0 40px #fff, 0 0 50px #fff, 0 0 75px #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff;
   }
 }
 
 @media all and (max-width: 576px) {
   .btn-create-game {
     font-size: 3.5rem;
+  }
+  .main-menu {
+    height: auto;
   }
 }
